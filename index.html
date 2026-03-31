@@ -10,6 +10,244 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
+
+  <!-- ── STYLES SECTION VIDÉO ── -->
+  <style>
+    /* ── VIDÉO ── */
+    #video {
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #video::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(201, 168, 76, .07) 0%, transparent 65%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .video-wrapper {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* Cadre décoratif autour de la vidéo */
+    .video-frame-outer {
+      position: relative;
+      padding: 12px;
+      background: linear-gradient(145deg, rgba(201, 168, 76, .18), rgba(201, 168, 76, .04));
+      border: 1px solid rgba(201, 168, 76, .3);
+    }
+
+    .video-frame-outer::before,
+    .video-frame-outer::after {
+      content: '✦';
+      position: absolute;
+      color: var(--gold);
+      font-size: .85rem;
+      opacity: .7;
+    }
+
+    .video-frame-outer::before {
+      top: -.55rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg);
+      padding: 0 .5rem;
+    }
+
+    .video-frame-outer::after {
+      bottom: -.55rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg);
+      padding: 0 .5rem;
+    }
+
+    /* Coins dorés */
+    .video-corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: .65;
+      z-index: 2;
+    }
+
+    .video-corner.tl {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .video-corner.tr {
+      top: -1px;
+      right: -1px;
+      border-width: 2px 2px 0 0;
+    }
+
+    .video-corner.bl {
+      bottom: -1px;
+      left: -1px;
+      border-width: 0 0 2px 2px;
+    }
+
+    .video-corner.br {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+    }
+
+    /* Vignette cliquable 16/9 */
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-thumb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(.85) sepia(.1);
+      transition: filter .4s ease, transform .5s ease;
+    }
+
+    .video-responsive:hover .video-thumb {
+      filter: brightness(.7) sepia(.15);
+      transform: scale(1.02);
+    }
+
+    /* Overlay sombre dégradé */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(28, 22, 17, .55) 0%,
+        transparent 50%,
+        rgba(28, 22, 17, .2) 100%
+      );
+    }
+
+    /* Bouton play */
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, .15);
+      border: 2px solid rgba(201, 168, 76, .7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .3s, border-color .3s, transform .3s;
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+
+    .video-play-btn svg {
+      margin-left: 5px; /* centre optique */
+      transition: fill .3s;
+    }
+
+    .video-responsive:hover .video-play-btn {
+      background: rgba(201, 168, 76, .35);
+      border-color: var(--gold);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-responsive:hover .video-play-btn svg {
+      fill: #fff;
+    }
+
+    /* Étiquette "YouTube" en bas à droite */
+    .video-yt-badge {
+      position: absolute;
+      bottom: .8rem;
+      right: .9rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem;
+      letter-spacing: .25em;
+      color: rgba(245, 237, 216, .55);
+      text-transform: uppercase;
+    }
+
+    /* Légende sous la vidéo */
+    .video-caption {
+      margin-top: 1.6rem;
+      text-align: center;
+    }
+
+    .video-caption-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--warm-white);
+      margin-bottom: .35rem;
+    }
+
+    .video-caption-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* Lien YouTube direct */
+    .video-yt-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin-top: 1.4rem;
+      padding: .55rem 1.5rem;
+      border: 1px solid rgba(201, 168, 76, .3);
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      transition: border-color .3s, color .3s;
+    }
+
+    .video-yt-link svg {
+      flex-shrink: 0;
+      transition: fill .3s;
+    }
+
+    .video-yt-link:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .video-yt-link:hover svg {
+      fill: var(--gold);
+    }
+
+    @media (max-width: 768px) {
+      .video-frame-outer {
+        padding: 8px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -29,6 +267,7 @@
     <ul id="nav-menu">
       <li><a href="#about" class="nav-link">Biographie</a></li>
       <li><a href="#photos" class="nav-link">Galerie</a></li>
+      <li><a href="#video" class="nav-link">Vidéo</a></li>
       <li><a href="#spectacles" class="nav-link">Spectacles</a></li>
       <li><a href="#prix" class="nav-link">Distinctions</a></li>
       <li><a href="#formation" class="nav-link">Formation</a></li>
@@ -99,6 +338,8 @@
       </div>
     </div>
   </section>
+
+  <!-- GALERIE -->
   <section id="photos">
     <div class="section-inner">
       <div class="reveal">
@@ -129,6 +370,83 @@
       </div>
     </div>
   </section>
+
+  <!-- ══════════════════════════════════════
+       SECTION VIDÉO  (nouvelle section)
+  ══════════════════════════════════════ -->
+  <section id="video">
+    <div class="section-inner">
+
+      <div class="reveal">
+        <p class="section-label">En images</p>
+        <h2 class="section-title"><em>Regardez</em>-moi<br>sur scène</h2>
+        <div class="section-sep">
+          <hr /><span>✦</span>
+          <hr />
+        </div>
+      </div>
+
+      <div class="video-wrapper reveal">
+
+        <div class="video-frame-outer">
+          <!-- Coins décoratifs -->
+          <span class="video-corner tl"></span>
+          <span class="video-corner tr"></span>
+          <span class="video-corner bl"></span>
+          <span class="video-corner br"></span>
+
+          <!-- Vignette cliquable → ouvre YouTube -->
+          <a
+            href="https://www.youtube.com/watch?v=5ZPYtLktYBg"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Regarder la vidéo sur YouTube"
+          >
+            <div class="video-responsive">
+              <!-- Miniature haute résolution YouTube -->
+              <img
+                class="video-thumb"
+                src="https://img.youtube.com/vi/5ZPYtLktYBg/maxresdefault.jpg"
+                alt="Aperçu vidéo — Meka Sadia"
+                loading="lazy"
+              />
+              <div class="video-overlay"></div>
+
+              <!-- Bouton play doré -->
+              <div class="video-play-btn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(201,168,76,.9)" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+
+              <span class="video-yt-badge">Voir sur YouTube</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Légende + lien YouTube -->
+        <div class="video-caption">
+          <p class="video-caption-title">Meka Sadia — Extrait artistique</p>
+          <p class="video-caption-sub">Comédien &amp; Circassien · Côte d'Ivoire</p>
+
+          <a
+            href="https://www.youtube.com/watch?v=5ZPYtLktYBg"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="video-yt-link"
+          >
+            <!-- Icône YouTube SVG minimaliste -->
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--muted)" xmlns="http://www.w3.org/2000/svg">
+              <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+            </svg>
+            Voir sur YouTube
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- ── FIN SECTION VIDÉO ── -->
 
   <!-- SPECTACLES -->
   <section id="spectacles">
@@ -400,7 +718,6 @@
         burger.classList.toggle('open');
         menu.classList.toggle('open');
       });
-      // Ferme le menu quand on clique sur un lien
       document.querySelectorAll('.nav-link').forEach(function (link) {
         link.addEventListener('click', function () {
           burger.classList.remove('open');
@@ -409,7 +726,7 @@
       });
     }
 
-    // ── RIDEAU : s'ouvre immédiatement, sans attendre aucun chargement externe
+    // ── RIDEAU
     (function () {
       function openCurtain() {
         setTimeout(function () {
